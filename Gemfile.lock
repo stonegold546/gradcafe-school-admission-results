@@ -1,9 +1,27 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    activemodel (4.2.5)
+      activesupport (= 4.2.5)
+      builder (~> 3.1)
+    activesupport (4.2.5)
+      i18n (~> 0.7)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.3, >= 0.3.4)
+      tzinfo (~> 1.1)
     addressable (2.4.0)
+    axiom-types (0.1.1)
+      descendants_tracker (~> 0.0.4)
+      ice_nine (~> 0.11.0)
+      thread_safe (~> 0.3, >= 0.3.1)
+    builder (3.2.2)
     chartkick (1.4.1)
+    coercible (1.0.0)
+      descendants_tracker (~> 0.0.1)
     cookiejar (0.3.2)
+    descendants_tracker (0.0.4)
+      thread_safe (~> 0.3, >= 0.3.1)
     em-http-request (1.1.2)
       addressable (>= 2.3.4)
       cookiejar
@@ -12,6 +30,7 @@ GEM
       http_parser.rb (>= 0.6.0)
     em-socksify (0.3.1)
       eventmachine (>= 1.0.0.beta.4)
+    equalizer (0.0.11)
     eventmachine (1.0.8)
     faye (1.1.2)
       cookiejar (>= 0.3.0)
@@ -28,9 +47,12 @@ GEM
     httparty (0.13.7)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
+    i18n (0.7.0)
+    ice_nine (0.11.1)
     json (1.8.3)
     kramdown (1.9.0)
     mini_portile2 (2.0.0)
+    minitest (5.8.3)
     multi_json (1.11.2)
     multi_xml (0.5.5)
     nokogiri (1.6.7.2)
@@ -39,7 +61,6 @@ GEM
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
-    rack-ssl-enforcer (0.2.9)
     sinatra (1.4.7)
       rack (~> 1.5)
       rack-protection (~> 1.4)
@@ -48,7 +69,15 @@ GEM
       temple (~> 0.7.3)
       tilt (>= 1.3.3, < 2.1)
     temple (0.7.6)
+    thread_safe (0.3.5)
     tilt (2.0.2)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
+    virtus (1.0.5)
+      axiom-types (~> 0.1)
+      coercible (~> 1.0)
+      descendants_tracker (~> 0.0, >= 0.0.3)
+      equalizer (~> 0.0, >= 0.0.9)
     websocket-driver (0.6.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
@@ -57,12 +86,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activemodel
   chartkick
   faye
   httparty
   kramdown
   nokogiri
   puma
-  rack-ssl-enforcer
   sinatra
   slim
+  virtus

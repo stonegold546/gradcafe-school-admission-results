@@ -1,6 +1,8 @@
-# \ -s puma
+# \ -s puma -E production
 
-Dir.glob('./{controllers,services,values,forms,workers}/*.rb')
+require 'faye'
+
+Dir.glob('./{controllers,services,forms,workers}/*.rb')
   .each do |file|
   require file
 end

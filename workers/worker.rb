@@ -1,17 +1,15 @@
 require 'json'
 require 'nokogiri'
 
-require_relative '../services/search_grad_cafe'
-
 PAGE_INFO_CLASS = '.pagination'
 PAGE_NUMBER_POSITION = 4
 
 # Worker to trouble gradcafe
 class GradCafeWorker
-  def initialize(channel, search_term, time_period)
-    @channel = channel
-    @search_term = search_term
-    @time_period = time_period
+  def initialize(params)
+    @channel = params['channel']
+    @search_term = params['search_term']
+    @time_period = params['time_period']
   end
 
   def call(other_pages = [])
@@ -37,7 +35,7 @@ class GradCafeWorker
     (2..number_of_pages).to_a.map do |page_number|
       sleep 02
       result = SearchGradCafe.new(@search_term, @time_period, page_number).call
-      # publish "Searched #{page_number} of #{number_of_pages} pages"
+      publish([page_number, number_of_pages].to_json)
       result
     end
   end
@@ -48,8 +46,7 @@ class GradCafeWorker
       headers: { 'Content-Type' => 'application/json' },
       body: {
         channel: "/#{@channel}",
-        data: "#{message}\nGradCafe is a free service so waiting"\
-              ' two seconds between requests'
+        data: message
       }.to_json
     )
   end
