@@ -36,7 +36,7 @@ class GradCafeWorker
   def go_through_other_pages(number_of_pages)
     (2..number_of_pages).to_a.map do |page_number|
       sleep 02
-      result = SearchGradCafe.new(@search_term, @time_period, page_number)
+      result = SearchGradCafe.new(@search_term, @time_period, page_number).call
       # publish "Searched #{page_number} of #{number_of_pages} pages"
       result
     end

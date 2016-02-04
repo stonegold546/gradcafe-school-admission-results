@@ -1,4 +1,4 @@
-require 'httparty'
+require 'open-uri'
 
 GRADCAFE = 'http://thegradcafe.com/survey/index.php?q'
 TIME = 't'
@@ -13,7 +13,7 @@ class SearchGradCafe
   end
 
   def call
-    HTTParty.get "#{GRADCAFE}=#{@search_term}&#{TIME}=#{@time_period}&"\
-                 "#{PAGES}=#{@page_number}"
+    open("#{GRADCAFE}=#{@search_term}&#{TIME}=#{@time_period}&"\
+         "#{PAGES}=#{@page_number}").read
   end
 end
