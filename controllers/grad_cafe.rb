@@ -5,6 +5,7 @@ require 'slim/include'
 require 'json'
 require 'tilt/kramdown'
 require 'securerandom'
+require 'ap'
 
 # Sinatra App to Visualize Grad Cafe Survey data
 class GradCafeVisualizationApp < Sinatra::Base
@@ -26,7 +27,7 @@ class GradCafeVisualizationApp < Sinatra::Base
   end
 
   post '/result/?' do
-    slim :result, locals: { result: req['result'] }
+    slim :result, locals: { result: params['result'] }
   end
 
   # get '/result/?' do
