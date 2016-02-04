@@ -1,5 +1,4 @@
 require 'nokogiri'
-require 'ap'
 
 TABLE_ROWS = 'table > tr'
 TABLE_DATA = 'td'
@@ -8,10 +7,10 @@ REMOVE_GRE = 'GRE'
 
 # Service object to filter grad cafe search results
 class FilterSearchResults
-  def initialize(search_results, masters_phd, season)
+  def initialize(search_results, masters_phd, search_season)
     @search_results = search_results
     @masters_phd = masters_phd
-    @search_season = season
+    @search_season = search_season
   end
 
   def call(results = {})
