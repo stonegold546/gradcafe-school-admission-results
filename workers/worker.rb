@@ -17,11 +17,17 @@ class GradCafeWorker
     page_one = first_page
     number_of_pages = calculate_number_of_pages(page_one)
     if number_of_pages == 0
-      publish([0, 0].to_json)
+      publish([0, 0, ''].to_json)
       return 'No results for your query'
     end
-    other_pages = go_through_other_pages(number_of_pages) if number_of_pages > 1
-    [page_one] + other_pages
+    if number_of_pages > 1
+      other_pages = go_through_other_pages(number_of_pages)
+    else
+      publish([1, 1, [page_one].to_s].to_json)
+      return
+    end
+    result = ([page_one] + other_pages).to_s
+    publish([number_of_pages, number_of_pages, result].to_json)
   end
 
   def first_page
@@ -39,7 +45,9 @@ class GradCafeWorker
     (2..number_of_pages).to_a.map do |page_number|
       sleep 02
       result = SearchGradCafe.new(@search_term, @time_period, page_number).call
-      publish([page_number, number_of_pages].to_json)
+      unless page_number == number_of_pages
+        publish([page_number, number_of_pages, ''].to_json)
+      end
       result
     end
   end

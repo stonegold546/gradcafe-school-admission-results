@@ -7,7 +7,7 @@ var inputs = document.getElementsByClassName('data');
 var status_update = document.getElementById('progress');
 var submit = document.getElementById('submit');
 
-function workMagic(search) {
+function workMagic(search_results) {
     "use strict";
     // console.log(search.readyState);
     // console.log(search.status);
@@ -22,7 +22,7 @@ function workMagic(search) {
     form.method = 'POST';
     result.name = 'result';
     result.type = 'hidden';
-    result.value = search.responseText;
+    result.value = search_results;
     search_term.name = 'search_term';
     search_term.type = 'hidden';
     search_term.value = inputs[0].value;
@@ -53,6 +53,7 @@ function processForm() {
     submit.disabled = true;
     var search = new XMLHttpRequest(),
         client = new Faye.Client('https://grad-cafe-visualizations.herokuapp.com/faye'),
+        // client = new Faye.Client('http://localhost:9292/faye'),
         url;
     url = '/search?search_term='.concat(
         inputs[0].value,
@@ -70,7 +71,8 @@ function processForm() {
     client.subscribe('/' + inputs[4].value, function (message) {
         var parsed_message = JSON.parse(message),
             current_page = parsed_message[0],
-            total_pages = parsed_message[1];
+            total_pages = parsed_message[1],
+            search_results = parsed_message[2];
         status_update.innerHTML = 'Searched ' + current_page + ' of '
             + total_pages + ' pages. <br> GradCafe is a free service, so I put'
             + ' a 2-second delay between each page search. <br> All GRE scores'
@@ -82,7 +84,7 @@ function processForm() {
                 submit.disabled = false;
                 return;
             }
-            setTimeout(workMagic(search), 1100);
+            setTimeout(workMagic(search_results), 1100);
         }
     });
     // search.onreadystatechange = function () {

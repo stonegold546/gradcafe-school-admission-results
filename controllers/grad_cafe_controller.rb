@@ -8,6 +8,7 @@ require 'securerandom'
 require 'ap'
 require 'chartkick'
 require 'descriptive_statistics'
+require 'opal'
 
 # Sinatra App to Visualize Grad Cafe Survey data
 class GradCafeVisualizationApp < Sinatra::Base
@@ -24,15 +25,17 @@ class GradCafeVisualizationApp < Sinatra::Base
 
   get '/search/?' do
     url = 'https://grad-cafe-visualizations.herokuapp.com'
+    # url = 'http://localhost:9292'
     search_results = GradCafeWorker.new(params, url).call
-    halt 404 if search_results == 'No results for your query'
-    FilterSearchResults.new(
-      search_results, params['masters_phd'], params['search_season']
-    ).call.to_json
+    search_results == 'No results for your query' ? halt(404) : 302
   end
 
   post '/result/?' do
     result = JSON.parse(params['result'])
+    result = FilterSearchResults.new(
+      result, params['masters_phd'], params['search_season']
+    ).call
+    result = JSON.parse(result.to_json)
     result = SplitResultIntoAcceptReject.new(result).call
     result = ConvertOldGreToNewGre.new(result).call
     accepted = result[0]
