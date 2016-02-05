@@ -7,7 +7,7 @@ include scripts
 
 | search term: #{search_term}; time period: #{timer["#{time_period}"]}; degree: #{masters_phd}; season: #{search_season}
 br I won't go further back than 20 pages (~5000 results at 250 results/page) for any one search.
-br If you see nothing, then it's likely the applicant(s) did not submit GRE & uGPA data.
+| If you see nothing, then it's likely the applicant(s) did not submit GRE & uGPA data.
 
 - def get_box(data)\
     result = [data.percentile(9), data.percentile(25), data.percentile(50), data.percentile(75), data.percentile(91)]; \
