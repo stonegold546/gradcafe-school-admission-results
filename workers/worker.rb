@@ -16,7 +16,10 @@ class GradCafeWorker
   def call(other_pages = [])
     page_one = first_page
     number_of_pages = calculate_number_of_pages(page_one)
-    return 'No results for your query' if number_of_pages == 0
+    if number_of_pages == 0
+      publish([0, 0].to_json)
+      return # 'No results for your query'
+    end
     other_pages = go_through_other_pages(number_of_pages) if number_of_pages > 1
     [page_one] + other_pages
   end

@@ -7,42 +7,42 @@ var inputs = document.getElementsByClassName('data');
 var status_update = document.getElementById('progress');
 var submit = document.getElementById('submit');
 
-// function workMagic(search) {
-//     "use strict";
-//     console.log(search.readyState);
-//     console.log(search.status);
-//     if (search.readyState === 4 && search.status === 200) {
-//         var form = document.createElement('form'),
-//             result = document.createElement('input'),
-//             search_term = document.createElement('input'),
-//             time_period = document.createElement('input'),
-//             masters_phd = document.createElement('input'),
-//             search_season = document.createElement('input');
-//         form.action = '/result';
-//         form.method = 'POST';
-//         result.name = 'result';
-//         result.type = 'hidden';
-//         result.value = search.responseText;
-//         search_term.name = 'search_term';
-//         search_term.type = 'hidden';
-//         search_term.value = inputs[0].value;
-//         time_period.name = 'time_period';
-//         time_period.type = 'hidden';
-//         time_period.value = inputs[1].value;
-//         masters_phd.name = 'masters_phd';
-//         masters_phd.type = 'hidden';
-//         masters_phd.value = inputs[2].value;
-//         search_season.name = 'search_season';
-//         search_season.type = 'hidden';
-//         search_season.value = inputs[3].value;
-//         form.appendChild(result);
-//         form.appendChild(search_term);
-//         form.appendChild(time_period);
-//         form.appendChild(masters_phd);
-//         form.appendChild(search_season);
-//         form.submit();
-//     }
-// }
+function workMagic(search) {
+    "use strict";
+    // console.log(search.readyState);
+    // console.log(search.status);
+    // if (search.readyState === 4 && search.status === 200) {
+    var form = document.createElement('form'),
+        result = document.createElement('input'),
+        search_term = document.createElement('input'),
+        time_period = document.createElement('input'),
+        masters_phd = document.createElement('input'),
+        search_season = document.createElement('input');
+    form.action = '/result';
+    form.method = 'POST';
+    result.name = 'result';
+    result.type = 'hidden';
+    result.value = search.responseText;
+    search_term.name = 'search_term';
+    search_term.type = 'hidden';
+    search_term.value = inputs[0].value;
+    time_period.name = 'time_period';
+    time_period.type = 'hidden';
+    time_period.value = inputs[1].value;
+    masters_phd.name = 'masters_phd';
+    masters_phd.type = 'hidden';
+    masters_phd.value = inputs[2].value;
+    search_season.name = 'search_season';
+    search_season.type = 'hidden';
+    search_season.value = inputs[3].value;
+    form.appendChild(result);
+    form.appendChild(search_term);
+    form.appendChild(time_period);
+    form.appendChild(masters_phd);
+    form.appendChild(search_season);
+    form.submit();
+    // }
+}
 
 function processForm() {
     "use strict";
@@ -76,47 +76,52 @@ function processForm() {
             + ' a 2-second delay between each page search. <br> All GRE scores'
             + ' are on the new scale, the old scores have been converted to'
             + ' the new scale.';
-        // if (current_page === total_pages) {
-        //     setTimeout(workMagic(search), 1100);
-        // }
+        if (current_page === total_pages) {
+            if (total_pages === 0) {
+                status_update.innerHTML = '<h3>No result found for your search!</h3>';
+                submit.disabled = false;
+                return;
+            }
+            setTimeout(workMagic(search), 1100);
+        }
     });
-    search.onreadystatechange = function () {
-        if (search.readyState === 4 && search.status === 404) {
-            status_update.innerHTML = '<h3>No result found for your search!</h3>';
-            submit.disabled = false;
-        }
-        if (search.readyState === 4 && search.status === 200) {
-            var form = document.createElement('form'),
-                result = document.createElement('input'),
-                search_term = document.createElement('input'),
-                time_period = document.createElement('input'),
-                masters_phd = document.createElement('input'),
-                search_season = document.createElement('input');
-            form.action = '/result';
-            form.method = 'POST';
-            result.name = 'result';
-            result.type = 'hidden';
-            result.value = search.responseText;
-            search_term.name = 'search_term';
-            search_term.type = 'hidden';
-            search_term.value = inputs[0].value;
-            time_period.name = 'time_period';
-            time_period.type = 'hidden';
-            time_period.value = inputs[1].value;
-            masters_phd.name = 'masters_phd';
-            masters_phd.type = 'hidden';
-            masters_phd.value = inputs[2].value;
-            search_season.name = 'search_season';
-            search_season.type = 'hidden';
-            search_season.value = inputs[3].value;
-            form.appendChild(result);
-            form.appendChild(search_term);
-            form.appendChild(time_period);
-            form.appendChild(masters_phd);
-            form.appendChild(search_season);
-            form.submit();
-        }
-    };
+    // search.onreadystatechange = function () {
+    //     if (search.readyState === 4 && search.status === 404) {
+    //         status_update.innerHTML = '<h3>No result found for your search!</h3>';
+    //         submit.disabled = false;
+    //     }
+    //     if (search.readyState === 4 && search.status === 200) {
+    //         var form = document.createElement('form'),
+    //             result = document.createElement('input'),
+    //             search_term = document.createElement('input'),
+    //             time_period = document.createElement('input'),
+    //             masters_phd = document.createElement('input'),
+    //             search_season = document.createElement('input');
+    //         form.action = '/result';
+    //         form.method = 'POST';
+    //         result.name = 'result';
+    //         result.type = 'hidden';
+    //         result.value = search.responseText;
+    //         search_term.name = 'search_term';
+    //         search_term.type = 'hidden';
+    //         search_term.value = inputs[0].value;
+    //         time_period.name = 'time_period';
+    //         time_period.type = 'hidden';
+    //         time_period.value = inputs[1].value;
+    //         masters_phd.name = 'masters_phd';
+    //         masters_phd.type = 'hidden';
+    //         masters_phd.value = inputs[2].value;
+    //         search_season.name = 'search_season';
+    //         search_season.type = 'hidden';
+    //         search_season.value = inputs[3].value;
+    //         form.appendChild(result);
+    //         form.appendChild(search_term);
+    //         form.appendChild(time_period);
+    //         form.appendChild(masters_phd);
+    //         form.appendChild(search_season);
+    //         form.submit();
+    //     }
+    // };
 }
 
 submit.addEventListener('click', processForm);
