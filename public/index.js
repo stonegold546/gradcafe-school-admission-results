@@ -36,7 +36,9 @@ function processForm() {
             total_pages = parsed_message[1];
         status_update.innerHTML = 'Searched ' + current_page + ' pages out of '
             + total_pages + ' pages. <br> GradCafe is a free service, so I put'
-            + ' a 2-second delay between each page search.';
+            + ' a 2-second delay between each page search. <br> All GRE scores'
+            + ' are on the new scale, the old scores have been converted to'
+            + ' the new scale.';
     });
     search.onreadystatechange = function () {
         if (search.readyState === 4 && search.status === 404) {
