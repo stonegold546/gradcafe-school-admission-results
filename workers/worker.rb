@@ -6,7 +6,8 @@ PAGE_NUMBER_POSITION = 4
 
 # Worker to trouble gradcafe
 class GradCafeWorker
-  def initialize(params)
+  def initialize(params, url)
+    @url = url
     @channel = params['channel']
     @search_term = params['search_term']
     @time_period = params['time_period']
@@ -42,7 +43,7 @@ class GradCafeWorker
 
   def publish(message)
     HTTParty.post(
-      'https://localhost:9292/faye',
+      "#{url}/faye",
       headers: { 'Content-Type' => 'application/json' },
       body: {
         channel: "/#{@channel}",

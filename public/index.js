@@ -15,7 +15,7 @@ function processForm() {
     }
     submit.disabled = true;
     var search = new XMLHttpRequest(),
-        client = new Faye.Client('https://localhost:9292/faye'),
+        client = new Faye.Client('https://grad-cafe-visualizations.herokuapp.com/faye'),
         url;
     url = '/search?search_term='.concat(
         inputs[0].value,
