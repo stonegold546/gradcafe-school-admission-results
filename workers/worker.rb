@@ -38,7 +38,8 @@ class GradCafeWorker
   def calculate_number_of_pages(page_one)
     doc = Nokogiri::HTML(page_one)
     return 0 if doc.text.include?('Sorry, there are no results for')
-    doc.css(PAGE_INFO_CLASS).text.split[PAGE_NUMBER_POSITION].to_i
+    length = doc.css(PAGE_INFO_CLASS).text.split[PAGE_NUMBER_POSITION].to_i
+    min(length, 20)
   end
 
   def go_through_other_pages(number_of_pages)
