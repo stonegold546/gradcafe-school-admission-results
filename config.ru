@@ -2,7 +2,7 @@
 
 require 'faye'
 
-Dir.glob('./{controllers,services,forms,workers}/*.rb')
+Dir.glob('./{controllers,services,forms,values,workers}/*.rb')
   .each do |file|
   require file
 end

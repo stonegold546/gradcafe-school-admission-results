@@ -2,3 +2,187 @@ include scripts
 
 - ap accepted
 - ap rejected
+
+| search term: #{search_term}; degree: #{masters_phd}; season: #{search_season}
+
+- def get_box(data)\
+    result = [data.percentile(9), data.percentile(25), data.percentile(50), data.percentile(75), data.percentile(91)]; \
+    result = [0, 0, 0, 0] if result.any? { |e| e.to_s == 'NaN' }; \
+    result \
+  end
+
+- accepted_gre = {}
+- rejected_gre = {}
+- accepted_gre_box = {}
+- rejected_gre_box = {}
+- accepted.each do |key, value|
+  - if key == :gre_quant || key == :gre_verbal
+    - accepted_gre[key] = accepted[key].mean
+    - accepted_gre[key] = 0 if accepted_gre[key].to_s == 'NaN'
+    - accepted_gre_box[key] = get_box(accepted[key])
+- rejected.each do |key, value|
+  - if key == :gre_quant || key == :gre_verbal
+    - rejected_gre[key] = rejected[key].mean
+    - rejected_gre[key] = 0 if rejected_gre[key].to_s == 'NaN'
+    - rejected_gre_box[key] = get_box(rejected[key])
+
+- accepted_gpa_awa = {}
+- rejected_gpa_awa = {}
+- accepted_gpa_awa_box = {}
+- rejected_gpa_awa_box = {}
+- accepted.each do |key, value|
+  - if key == :gre_awa || key == :undergraduate_gpa
+    - accepted_gpa_awa[key] = accepted[key].mean
+    - accepted_gpa_awa[key] = 0 if accepted_gpa_awa[key].to_s == 'NaN'
+    - accepted_gpa_awa_box[key] = get_box(accepted[key])
+- rejected.each do |key, value|
+  - if key == :gre_awa || key == :undergraduate_gpa
+    - rejected_gpa_awa[key] = rejected[key].mean
+    - rejected_gpa_awa[key] = 0 if rejected_gpa_awa[key].to_s == 'NaN'
+    - rejected_gpa_awa_box[key] = get_box(rejected[key])
+
+- result_gre = [{ name: 'Accepted', data: accepted_gre }, { name: 'Rejected', data: rejected_gre }]
+- result_gpa_awa = [{ name: 'Accepted', data: accepted_gpa_awa }, { name: 'Rejected', data: rejected_gpa_awa }]
+- ap result_gre
+- ap result_gpa_awa
+- ap accepted_gre_box
+- ap rejected_gre_box
+- ap accepted_gpa_awa_box
+- ap rejected_gpa_awa_box
+
+div class='row'
+  div class='col-md-1'
+  div class='col-md-5'
+    h4 Using Average Scores
+    == column_chart result_gre, discrete: true
+  div class='col-md-5'
+    h4 Using Average Scores
+    == column_chart result_gpa_awa, discrete: true
+  div class='col-md-1'
+
+div class='row'
+  div class='col-md-1'
+  div class='col-md-5'
+    div id='quant-verbal'
+  div class='col-md-5'
+    div id='gpa-awa'
+  div class='col-md-1'
+
+
+javascript:
+  var accept_values = JSON.parse("#{accepted_gre_box.values}");
+  var reject_values = JSON.parse("#{rejected_gre_box.values}");
+  var accept_gawa_values = JSON.parse("#{accepted_gpa_awa_box.values}");
+  var reject_gawa_values = JSON.parse("#{rejected_gpa_awa_box.values}");
+  $(function () {
+    $('#quant-verbal').highcharts({
+        chart: {
+            type: 'boxplot'
+        },
+        title: {
+            text: 'Box plot for GRE Quant & Verbal Scores'
+        },
+        subtitle: {
+            text: '9th percentile & 91st percentile used for whiskers'
+        },
+        legend: {
+            enabled: false
+        },
+        xAxis: {
+            categories: [
+                'Accepted - Q',
+                'Rejected - Q',
+                'Accepted - V',
+                'Rejected - V'
+            ],
+            title: {
+                text: 'GRE Section'
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Scores'
+            }
+        },
+        series: [{
+            name: 'Observations',
+            data: [
+                accept_values[0],
+                reject_values[0],
+                accept_values[1],
+                reject_values[1]
+            ],
+            tooltip: {
+                headerFormat: '<em>Score: {point.key}</em><br/>'
+            }
+        }, {
+            name: 'Outlier',
+            color: Highcharts.getOptions().colors[0],
+            type: 'scatter',
+            data: [],
+            marker: {
+                fillColor: 'white',
+                lineWidth: 1,
+                lineColor: Highcharts.getOptions().colors[0]
+            },
+            tooltip: {
+                pointFormat: 'Observation: {point.y}'
+            }
+        }]
+    });
+    $('#gpa-awa').highcharts({
+        chart: {
+            type: 'boxplot'
+        },
+        title: {
+            text: 'Box plot for Undergraduate GPA & GRE AWA'
+        },
+        subtitle: {
+            text: '9th percentile & 91st percentile used for whiskers'
+        },
+        legend: {
+            enabled: false
+        },
+        xAxis: {
+            categories: [
+                'Accepted - uGPA',
+                'Rejected - uGPA',
+                'Accepted - GRE AWA',
+                'Rejected - GRE AWA'
+            ],
+            title: {
+                text: 'uGPA & GRE'
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Scores'
+            }
+        },
+        series: [{
+            name: 'Observations',
+            data: [
+                accept_gawa_values[0],
+                reject_gawa_values[0],
+                accept_gawa_values[1],
+                reject_gawa_values[1]
+            ],
+            tooltip: {
+                headerFormat: '<em>Score: {point.key}</em><br/>'
+            }
+        }, {
+            name: 'Outlier',
+            color: Highcharts.getOptions().colors[0],
+            type: 'scatter',
+            data: [],
+            marker: {
+                fillColor: 'white',
+                lineWidth: 1,
+                lineColor: Highcharts.getOptions().colors[0]
+            },
+            tooltip: {
+                pointFormat: 'Observation: {point.y}'
+            }
+        }]
+    });
+  });
