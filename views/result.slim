@@ -6,7 +6,7 @@ include scripts
 - timer = { 'n' => 'today only', 't' => 'past two days', 'w' => 'past week', 'm' => 'past month', 'a' => 'all time' }
 
 | search term: #{search_term}; time period: #{timer["#{time_period}"]}; degree: #{masters_phd}; season: #{search_season}
-| If you see nothing, then it's likely the applicant(s) did not submit GRE & uGPA data.
+br If you see nothing, then it's likely the applicant(s) did not submit GRE & uGPA data.
 
 - def get_box(data)\
     result = [data.percentile(9), data.percentile(25), data.percentile(50), data.percentile(75), data.percentile(91)]; \
