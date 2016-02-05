@@ -8,7 +8,6 @@ require 'securerandom'
 require 'ap'
 require 'chartkick'
 require 'descriptive_statistics'
-require 'opal'
 
 # Sinatra App to Visualize Grad Cafe Survey data
 class GradCafeVisualizationApp < Sinatra::Base
