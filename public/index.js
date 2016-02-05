@@ -83,6 +83,12 @@ function processForm() {
             setTimeout(workMagic(search_results), 1100);
         }
     });
+    search.onreadystatechange = function () {
+        if (search.readyState === 4 && search.status === 404) {
+            status_update.innerHTML = '<h3>No result found for your search!</h3>';
+            submit.disabled = false;
+        }
+    };
 }
 
 submit.addEventListener('click', processForm);
