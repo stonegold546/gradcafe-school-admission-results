@@ -9,6 +9,8 @@ var submit = document.getElementById('submit');
 
 function workMagic(search) {
     "use strict";
+    console.log(search.readyState);
+    console.log(search.status);
     if (search.readyState === 4 && search.status === 200) {
         var form = document.createElement('form'),
             result = document.createElement('input'),
