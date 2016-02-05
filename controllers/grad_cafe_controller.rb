@@ -1,5 +1,4 @@
 require 'sinatra/base'
-require 'sinatra/config_file'
 require 'httparty'
 require 'slim'
 require 'slim/include'
@@ -13,8 +12,8 @@ require 'descriptive_statistics'
 # Sinatra App to Visualize Grad Cafe Survey data
 class GradCafeVisualizationApp < Sinatra::Base
   enable :logging
-  register Sinatra::ConfigFile
-  config_file '../config/config.yml'
+  # register Sinatra::ConfigFile
+  # config_file '../config/config.yml'
 
   set :views, File.expand_path('../../views', __FILE__)
   set :public_folder, File.expand_path('../../public', __FILE__)
