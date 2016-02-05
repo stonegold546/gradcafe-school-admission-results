@@ -6,6 +6,8 @@ require 'json'
 require 'tilt/kramdown'
 require 'securerandom'
 require 'ap'
+require 'chartkick'
+require 'descriptive_statistics'
 
 # Sinatra App to Visualize Grad Cafe Survey data
 class GradCafeVisualizationApp < Sinatra::Base
@@ -32,6 +34,10 @@ class GradCafeVisualizationApp < Sinatra::Base
     result = ConvertOldGreToNewGre.new(result).call
     accepted = result[0]
     rejected = result[1]
-    slim :result, locals: { accepted: accepted, rejected: rejected }
+    slim :result, locals: {
+      accepted: accepted, rejected: rejected,
+      search_term: params['search_term'], time_period: params['time_period'],
+      masters_phd: params['masters_phd'], search_season: params['search_season']
+    }
   end
 end

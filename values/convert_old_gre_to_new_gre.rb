@@ -42,7 +42,7 @@ class ConvertOldGreToNewGre
   def gre_awa_work(key, idx)
     @accept_reject[idx][key] =
     @accept_reject[idx][key].map(&:to_f).select do |value|
-      value if value >= 0 && value <= 6
+      value if value > 0 && value <= 6
     end
   end
 
