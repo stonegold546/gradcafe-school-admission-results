@@ -21,7 +21,7 @@ class GradCafeVisualizationApp < Sinatra::Base
   end
 
   get '/search/?' do
-    url = 'https://grad-cafe-visualizations.herokuapp.com/'
+    url = 'https://grad-cafe-visualizations.herokuapp.com'
     search_results = GradCafeWorker.new(params, url).call
     halt 404 if search_results == 'No results for your query'
     FilterSearchResults.new(
