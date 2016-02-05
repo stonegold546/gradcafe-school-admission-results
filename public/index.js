@@ -45,10 +45,8 @@ function processForm() {
             status_update.innerHTML = '<h3>No result found for your search!</h3>';
             submit.disabled = false;
         }
-        do {
-
-        } while (search.status !== 200);
         if (search.readyState === 4 && search.status === 200) {
+            console.log('JAJA BLINKS!');
             var form = document.createElement('form'),
                 result = document.createElement('input'),
                 search_term = document.createElement('input'),
