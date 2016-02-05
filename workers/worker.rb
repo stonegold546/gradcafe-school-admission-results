@@ -43,7 +43,7 @@ class GradCafeWorker
 
   def publish(message)
     HTTParty.post(
-      "#{url}/faye",
+      "#{@url}/faye",
       headers: { 'Content-Type' => 'application/json' },
       body: {
         channel: "/#{@channel}",
