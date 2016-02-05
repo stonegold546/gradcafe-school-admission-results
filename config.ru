@@ -7,5 +7,5 @@ Dir.glob('./{controllers,services,forms,values,workers}/*.rb')
   require file
 end
 
-use Faye::RackAdapter, mount: '/faye', timeout: 3000
+use Faye::RackAdapter, mount: '/faye', timeout: 25
 run GradCafeVisualizationApp
