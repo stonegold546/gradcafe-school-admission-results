@@ -3,11 +3,14 @@ include scripts
 - ap accepted
 - ap rejected
 
-| search term: #{search_term}; degree: #{masters_phd}; season: #{search_season}
+- timer = { 'n' => 'today only', 't' => 'past two days', 'w' => 'past week', 'm' => 'past month', 'a' => 'all time' }
+
+| search term: #{search_term}; time period: #{timer["#{time_period}"]}; degree: #{masters_phd}; season: #{search_season}
+| If you see nothing, then it's likely the applicant(s) did not submit GRE & uGPA data.
 
 - def get_box(data)\
     result = [data.percentile(9), data.percentile(25), data.percentile(50), data.percentile(75), data.percentile(91)]; \
-    result = [0, 0, 0, 0] if result.any? { |e| e.to_s == 'NaN' }; \
+    result = [0, 0, 0, 0, 0] if result.any? { |e| e.to_s == 'NaN' || e.nil? }; \
     result \
   end
 

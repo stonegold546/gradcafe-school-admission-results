@@ -42,7 +42,7 @@ function processForm() {
     });
     search.onreadystatechange = function () {
         if (search.readyState === 4 && search.status === 404) {
-            status_update.innerHTML = 'No result found for your search!';
+            status_update.innerHTML = '<h3>No result found for your search!</h3>';
             submit.disabled = false;
         }
         if (search.readyState === 4 && search.status === 200) {
