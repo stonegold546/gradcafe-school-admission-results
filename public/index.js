@@ -1,6 +1,6 @@
 /*jslint browser:true */
 /*jslint forin:true */
-/*global document, window, alert, console, require */
+/*global document, window, alert, console, require, Faye */
 
 // var form = document.getElementById('my-form');
 var inputs = document.getElementsByClassName('data');
@@ -83,12 +83,16 @@ function processForm() {
             setTimeout(workMagic(search_results), 1100);
         }
     });
-    search.onreadystatechange = function () {
-        if (search.readyState === 4 && search.status === 404) {
-            status_update.innerHTML = '<h3>No result found for your search!</h3>';
-            submit.disabled = false;
-        }
-    };
+    // search.onreadystatechange = function () {
+    //     if (search.readyState === 4 && search.status === 404) {
+    //         status_update.innerHTML = '<h3>No result found for your search!</h3>';
+    //         submit.disabled = false;
+    //     }
+    //     if (search.readyState === 4 && search.status === 302) {
+    //         status_update.innerHTML = '<h3>No result found for your search!</h3>';
+    //         submit.disabled = false;
+    //     }
+    // };
 }
 
 submit.addEventListener('click', processForm);
