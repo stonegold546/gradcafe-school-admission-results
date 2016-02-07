@@ -8,6 +8,8 @@ require 'securerandom'
 require 'ap'
 require 'chartkick'
 require 'descriptive_statistics'
+require 'zlib'
+require 'base64'
 
 # Sinatra App to Visualize Grad Cafe Survey data
 class GradCafeVisualizationApp < Sinatra::Base
@@ -28,7 +30,10 @@ class GradCafeVisualizationApp < Sinatra::Base
   end
 
   post '/result/?' do
-    result = JSON.parse(params['result'])
+    result = Zlib::Inflate.inflate(
+      Base64.urlsafe_decode64(params['result'])
+    )
+    result = JSON.parse result
     result = FilterSearchResults.new(
       result, params['masters_phd'], params['search_season']
     ).call
