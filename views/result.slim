@@ -10,7 +10,7 @@ br I won't go further back than 20 pages (~5000 results at 250 results/page) for
 | If you see nothing, then it's likely the applicant(s) did not submit GRE & uGPA data.
 
 - def get_box(data)\
-    result = [data.percentile(9), data.percentile(25), data.percentile(50), data.percentile(75), data.percentile(91)]; \
+    result = [data.descriptive_statistics[:min], data.percentile(25), data.median, data.percentile(75), data.descriptive_statistics[:max]]; \
     result = [0, 0, 0, 0, 0] if result.any? { |e| e.to_s == 'NaN' || e.nil? }; \
     result \
   end
@@ -88,7 +88,7 @@ javascript:
             text: 'Box plot for GRE Quant & Verbal Scores'
         },
         subtitle: {
-            text: '9th percentile & 91st percentile used for whiskers'
+            text: 'Minimum & Maximum used for whiskers'
         },
         legend: {
             enabled: false
@@ -143,7 +143,7 @@ javascript:
             text: 'Box plot for Undergraduate GPA & GRE AWA'
         },
         subtitle: {
-            text: '9th percentile & 91st percentile used for whiskers'
+            text: 'Minimum & Maximum used for whiskers'
         },
         legend: {
             enabled: false
