@@ -1,5 +1,7 @@
 require 'json'
 require 'nokogiri'
+require 'zlib'
+require 'base64'
 
 PAGE_INFO_CLASS = '.pagination'
 PAGE_NUMBER_POSITION = 4
@@ -14,20 +16,29 @@ class GradCafeWorker
   end
 
   def call(other_pages = [])
+    # TODO: This is too long and complicated. BAD!
     page_one = first_page
     number_of_pages = calculate_number_of_pages(page_one)
     if number_of_pages == 0
       publish([0, 0, ''].to_json)
       return 'No results for your query'
-    end
-    if number_of_pages > 1
+    elsif number_of_pages > 1
       other_pages = go_through_other_pages(number_of_pages)
     else
-      publish([1, 1, [page_one].to_s].to_json)
+      publish([1, 1, zlib_base64([page_one].to_s)].to_json)
       return
     end
-    result = ([page_one] + other_pages).to_s
+    result = zlib_base64(([page_one] + other_pages).to_s)
     publish([number_of_pages, number_of_pages, result].to_json)
+  end
+
+  def zlib_base64(some_string)
+    compressed_string = Zlib::Deflate.deflate(some_string)
+    # puts some_string.size
+    # puts compressed_string.size
+    encoded_string = Base64.urlsafe_encode64 compressed_string
+    # puts encoded_string.size
+    encoded_string
   end
 
   def first_page
