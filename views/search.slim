@@ -1,30 +1,32 @@
-label Search: 
-input name='search_term' type='text' placeholder='Required' required='true' class='data'
-|   
-label Results from: 
-select name='time_period' class='data'
-  option value='n' today only
-  option value='t' past two days
-  option value='w' past week
-  option value='m' past month
-  option selected='selected' value='a' all time
-|   
-label Degree: 
-select name='masters_phd' class='data'
-  option selected='selected' value='' All degrees
-  - %w(PhD Masters MFA MBA JD EdD Other).each do |type|
-    option value="#{type}" #{type}
-|   
-label Search Season: 
-select name='search_season' class='data'
-  option selected='selected' value='' None
-  - 2016.downto(2013).to_a.each do |year|
-    - %w(Fall Spring).each do |season|
-      option value="#{season[0]}#{year.to_s[-2..-1]}" #{season} #{year}
-input name='channel' class='data' hidden='true' value="#{SecureRandom.hex}"
-br
-br
-input type='button' id='submit' value='Search'
+form action='processForm()'
+  label Search: 
+  input name='search_term' type='text' placeholder='Required' required='true' class='data'
+  |   
+  label Results from: 
+  select name='time_period' class='data'
+    option value='n' today only
+    option value='t' past two days
+    option value='w' past week
+    option value='m' past month
+    option selected='selected' value='a' all time
+  |   
+  label Degree: 
+  select name='masters_phd' class='data'
+    option selected='selected' value='' All degrees
+    - %w(PhD Masters MFA MBA JD EdD Other).each do |type|
+      option value="#{type}" #{type}
+  |   
+  label Search Season: 
+  select name='search_season' class='data'
+    option selected='selected' value='' None
+    - 2016.downto(2013).to_a.each do |year|
+      - %w(Fall Spring).each do |season|
+        option value="#{season[0]}#{year.to_s[-2..-1]}" #{season} #{year}
+  input name='channel' class='data' hidden='true' value="#{SecureRandom.hex}"
+  br
+  br
+  input type='submit' id='submit' value='Search'
+  / input type='button' id='submit' value='Search'
 
 markdown:
   ---

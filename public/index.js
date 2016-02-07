@@ -44,7 +44,7 @@ function workMagic(search_results) {
 function processForm() {
     "use strict";
     if (inputs[0].value === '') {
-        alert('Please enter a search term');
+        // alert('Please enter a search term');
         return;
     }
     submit.disabled = true;
@@ -63,16 +63,6 @@ function processForm() {
     );
     search.open('GET', url, true);
     search.send();
-    // search.onreadystatechange = function () {
-    //     if (search.readyState === 4 && search.status === 404) {
-    //         status_update.innerHTML = '<h3>No result found for your search!</h3>';
-    //         submit.disabled = false;
-    //     }
-    //     if (search.readyState === 4 && search.status === 302) {
-    //         status_update.innerHTML = '<h3>No result found for your search!</h3>';
-    //         submit.disabled = false;
-    //     }
-    // };
 }
 
 submit.addEventListener('click', processForm);
