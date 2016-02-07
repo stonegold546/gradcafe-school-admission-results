@@ -2,6 +2,7 @@
 /*jslint forin:true */
 /*global document, window, alert, console, require, Faye */
 
+// var main_form = document.getElementById('main-form');
 var inputs = document.getElementsByClassName('data');
 var status_update = document.getElementById('progress');
 var submit = document.getElementById('submit');
@@ -15,7 +16,8 @@ function workMagic(search_results) {
         search_term = document.createElement('input'),
         time_period = document.createElement('input'),
         masters_phd = document.createElement('input'),
-        search_season = document.createElement('input');
+        search_season = document.createElement('input'),
+        enter = document.createElement('button');
     form.action = '/result';
     form.method = 'POST';
     result.name = 'result';
@@ -33,18 +35,22 @@ function workMagic(search_results) {
     search_season.name = 'search_season';
     search_season.type = 'hidden';
     search_season.value = inputs[3].value;
+    enter.type = 'hidden';
+    enter.value = 'Submit';
     form.appendChild(result);
     form.appendChild(search_term);
     form.appendChild(time_period);
     form.appendChild(masters_phd);
     form.appendChild(search_season);
+    form.appendChild(enter);
+    document.body.appendChild(form);
     form.submit();
 }
 
 function processForm() {
     "use strict";
     if (inputs[0].value === '') {
-        // alert('Please enter a search term');
+        alert('Please enter a search term');
         return;
     }
     submit.disabled = true;
