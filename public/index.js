@@ -6,8 +6,8 @@
 var inputs = document.getElementsByClassName('data');
 var status_update = document.getElementById('progress');
 var submit = document.getElementById('submit');
-var client = new Faye.Client('https://grad-cafe-visualizations.herokuapp.com/faye');
-// var client = new Faye.Client('http://localhost:9292/faye');
+// var client = new Faye.Client('https://grad-cafe-visualizations.herokuapp.com/faye');
+var client = new Faye.Client('http://localhost:9292/faye');
 
 function workMagic(search_results) {
     "use strict";

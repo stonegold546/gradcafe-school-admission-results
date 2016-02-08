@@ -48,6 +48,47 @@ br I won't go further back than 20 pages (~5000 results at 250 results/page) for
 - result_gre = [{ name: 'Accepted', data: accepted_gre }, { name: 'Rejected', data: rejected_gre }]
 - result_gpa_awa = [{ name: 'Accepted', data: accepted_gpa_awa }, { name: 'Rejected', data: rejected_gpa_awa }]
 
+- a_r_nation_visual = Hash.new { |hash, key| hash[key] = {} }
+
+- q_array = [[],[]]
+- v_array = [[],[]]
+- gpa_array = [[],[]]
+- awa_array = [[],[]]
+
+- a_r_nation.each_key do |key|
+  - a_r_nation[key].each_key do |stat|
+    - a_r_nation_visual[key]["#{stat}_mean"] = a_r_nation[key][stat].mean
+    - a_r_nation_visual[key]["#{stat}_mean"] = 0 if ['', 'NaN'].include? a_r_nation_visual[key]["#{stat}_mean"].to_s
+    - if key.to_s.include? 'accept'
+      - case stat.to_s
+        - when 'undergraduate_gpa' then gpa_array[0] << [key.to_s[-1].upcase, a_r_nation_visual[key]["#{stat}_mean"]]
+        - when 'gre_quant' then q_array[0] << [key.to_s[-1].upcase, a_r_nation_visual[key]["#{stat}_mean"]]
+        - when 'gre_verbal' then v_array[0] << [key.to_s[-1].upcase, a_r_nation_visual[key]["#{stat}_mean"]]
+        - when 'gre_awa' then awa_array[0] << [key.to_s[-1].upcase, a_r_nation_visual[key]["#{stat}_mean"]]
+    - elsif key.to_s.include? 'reject'
+      - case stat.to_s
+        - when 'undergraduate_gpa' then gpa_array[1] << [key.to_s[-1].upcase, a_r_nation_visual[key]["#{stat}_mean"]]
+        - when 'gre_quant' then q_array[1] << [key.to_s[-1].upcase, a_r_nation_visual[key]["#{stat}_mean"]]
+        - when 'gre_verbal' then v_array[1] << [key.to_s[-1].upcase, a_r_nation_visual[key]["#{stat}_mean"]]
+        - when 'gre_awa' then awa_array[1] << [key.to_s[-1].upcase, a_r_nation_visual[key]["#{stat}_mean"]]
+    - a_r_nation_visual[key]["#{stat}_box"] = get_box(a_r_nation[key][stat])
+
+- accepted_gre.each_key { |key| accepted_gre[key] ||= 0 }
+- rejected_gre.each_key { |key| rejected_gre[key] ||= 0 }
+- accepted_gpa_awa.each_key { |key| accepted_gpa_awa[key] ||= 0 }
+- rejected_gpa_awa.each_key { |key| rejected_gpa_awa[key] ||= 0 }
+
+- ap accepted_gre
+- ap rejected_gre
+- ap accepted_gpa_awa
+- ap rejected_gpa_awa
+
+/ - ap q_array
+/ - ap v_array
+/ - ap gpa_array
+/ - ap awa_array
+/ - ap a_r_nation_visual
+
 / - ap result_gre
 / - ap result_gpa_awa
 / - ap accepted_gre_box
@@ -55,14 +96,22 @@ br I won't go further back than 20 pages (~5000 results at 250 results/page) for
 / - ap accepted_gpa_awa_box
 / - ap rejected_gpa_awa_box
 
+/ div class='row'
+/   div class='col-md-1'
+/   div class='col-md-5'
+/     h4 Using Average Scores
+/     == column_chart result_gre, discrete: true
+/   div class='col-md-5'
+/     h4 Using Average Scores
+/     == column_chart result_gpa_awa, discrete: true
+/   div class='col-md-1'
+
 div class='row'
   div class='col-md-1'
   div class='col-md-5'
-    h4 Using Average Scores
-    == column_chart result_gre, discrete: true
+    div id='quant-verbal-column'
   div class='col-md-5'
-    h4 Using Average Scores
-    == column_chart result_gpa_awa, discrete: true
+    div id='gpa-awa-column'
   div class='col-md-1'
 
 div class='row'
@@ -79,6 +128,11 @@ javascript:
   var reject_values = JSON.parse("#{rejected_gre_box.values}");
   var accept_gawa_values = JSON.parse("#{accepted_gpa_awa_box.values}");
   var reject_gawa_values = JSON.parse("#{rejected_gpa_awa_box.values}");
+  var q_array = JSON.parse("#{q_array}".replace(/&quot;/g, '"').replace(/amp;/g, ''));
+  var v_array = JSON.parse("#{v_array}".replace(/&quot;/g, '"').replace(/amp;/g, ''));
+  var awa_array = JSON.parse("#{awa_array}".replace(/&quot;/g, '"').replace(/amp;/g, ''));
+  var gpa_array = JSON.parse("#{gpa_array}".replace(/&quot;/g, '"').replace(/amp;/g, ''));
+  console.log(v_array[0]);
   $(function () {
     $('#quant-verbal').highcharts({
         chart: {
@@ -189,5 +243,157 @@ javascript:
                 pointFormat: 'Observation: {point.y}'
             }
         }]
+    });
+    $('#quant-verbal-column').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Average GRE Quant & Verbal Scores'
+        },
+        subtitle: {
+            text: 'Click a column to view data by Location: A/U/I.'
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            max: 250,
+            title: {
+                text: 'Score'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y}'
+                }
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b><br/>'
+        },
+        series: [{
+           name: 'GRE Score',
+           colorByPoint: true,
+           data: [{
+               name: 'Accepted - Q',
+               y: #{accepted_gre[:gre_quant]},
+               drilldown: 'Accepted Quants'
+           }, {
+               name: 'Rejected - Q',
+               y: #{rejected_gre[:gre_quant]},
+               drilldown: 'Rejected Quants'
+           }, {
+                name: 'Accepted - V',
+                y: #{accepted_gre[:gre_verbal]},
+                drilldown: 'Accepted Verbal'
+            }, {
+                name: 'Rejected - V',
+                y: #{rejected_gre[:gre_verbal]},
+                drilldown: 'Rejected Verbal'
+            }]
+        }],
+        drilldown: {
+            series: [{
+                name: 'Accepted - Quant Scores by A/U/I',
+                id: 'Accepted Quants',
+                data: q_array[0]
+            }, {
+                name: 'Rejected - Quant Scores by A/U/I',
+                id: 'Rejected Quants',
+                data: q_array[1]
+            }, {
+                name: 'Accepted - Verbal Scores by A/U/I',
+                id: 'Accepted Verbal',
+                data: v_array[0]
+            }, {
+              name: 'Rejected - Verbal Scores by A/U/I',
+              id: 'Rejected Verbal',
+              data: v_array[1]
+            }]
+        }
+    });
+    $('#gpa-awa-column').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Average Undergraduate GPA & GRE AWA Score'
+        },
+        subtitle: {
+            text: 'Click a column to view data by Location: A/U/I.'
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            max: 6,
+            title: {
+                text: 'Score'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y}'
+                }
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b><br/>'
+        },
+        series: [{
+           name: 'uGPA & GRE AWA',
+           colorByPoint: true,
+           data: [{
+               name: 'Accepted - uGPA',
+               y: #{accepted_gpa_awa[:undergraduate_gpa]},
+               drilldown: 'Accepted uGPA'
+           }, {
+               name: 'Rejected - uGPA',
+               y: #{rejected_gpa_awa[:undergraduate_gpa]},
+               drilldown: 'Rejected uGPA'
+           }, {
+               name: 'Accepted - AWA',
+               y: #{accepted_gpa_awa[:gre_awa]},
+               drilldown: 'Accepted AWA'
+           }, {
+               name: 'Rejected - AWA',
+               y: #{rejected_gpa_awa[:gre_awa]},
+               drilldown: 'Rejected AWA'
+           }]
+        }],
+        drilldown: {
+            series: [{
+                name: 'Accepted - AWA Scores by A/U/I',
+                id: 'Accepted AWA',
+                data: awa_array[0]
+            }, {
+                name: 'Rejected - AWA Scores by A/U/I',
+                id: 'Rejected AWA',
+                data: awa_array[1]
+            }, {
+                name: 'Accepted - uGPA by A/U/I',
+                id: 'Accepted uGPA',
+                data: gpa_array[0]
+            }, {
+              name: 'Rejected - uGPA by A/U/I',
+              id: 'Rejected uGPA',
+              data: gpa_array[1]
+            }]
+        }
     });
   });

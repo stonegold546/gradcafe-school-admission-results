@@ -9,7 +9,7 @@ class SplitResultIntoAcceptReject
   end
 
   def call
-    @result.each do |_institution, data|
+    @result.each_value do |data|
       data.each do |details|
         if details['decision'] == 'Accepted'
           work_on_item(details, @accepted)
@@ -20,7 +20,7 @@ class SplitResultIntoAcceptReject
   end
 
   def work_on_item(details, global_item)
-    global_item.each do |key, _value|
+    global_item.each_key do |key|
       item = details[key.to_s]
       global_item[key] << item unless item.include? 'n/a'
       global_item[key] -= ['', nil, '0.00', '0']
