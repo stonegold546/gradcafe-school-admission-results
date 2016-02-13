@@ -2,7 +2,6 @@
 /*jslint forin:true */
 /*global document, window, alert, console, require, Faye */
 
-// var main_form = document.getElementById('main-form');
 var inputs = document.getElementsByClassName('data');
 var status_update = document.getElementById('progress');
 var submit = document.getElementById('submit');

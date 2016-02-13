@@ -42,20 +42,32 @@ class GradCafeVisualizationApp < Sinatra::Base
     accept_reject = ConvertOldGreToNewGre.new(accept_reject).call
     a_r_nation = SplitResultIntoAcceptRejectNation.new(result).call
     a_r_nation = ConvertOldGreToNewGre.new(a_r_nation).call
-    accepted = accept_reject[0]
-    rejected = accept_reject[1]
+    results_page = ResultsPage.new(accept_reject, params['time_period']).call
+    accepted_gre, accepted_gpa_awa = results_page[0]
+    rejected_gre, rejected_gpa_awa = results_page[1]
+    accepted_gre_box, accepted_gpa_awa_box = results_page[2]
+    rejected_gre_box, rejected_gpa_awa_box = results_page[3]
+    timer = results_page[4]
     a_r_nation = {
       accepted_a: a_r_nation[0], accepted_u: a_r_nation[2],
       accepted_i: a_r_nation[4], rejected_a: a_r_nation[1],
       rejected_u: a_r_nation[3], rejected_i: a_r_nation[5]
     }
-    # ap accept_reject_nation
+    results_page_a_r = ResultsPageAcceptRejectNation.new(a_r_nation).call
+    q_array = results_page_a_r[0]
+    v_array = results_page_a_r[1]
+    gpa_array = results_page_a_r[2]
+    awa_array = results_page_a_r[3]
+    a_r_nation_visual = results_page_a_r[4]
     slim :result, locals: {
-      accepted: accepted, rejected: rejected, a_r_nation: a_r_nation,
-      # accepted_a: accepted_a, accepted_i: accepted_i, accepted_u: accepted_u,
-      # rejected_a: rejected_a, rejected_i: rejected_i, rejected_u: rejected_u,
-      search_term: params['search_term'], time_period: params['time_period'],
-      masters_phd: params['masters_phd'], search_season: params['search_season']
+      accepted_gre: accepted_gre, accepted_gpa_awa_box: accepted_gpa_awa_box,
+      accepted_gre_box: accepted_gre_box, rejected_gre_box: rejected_gre_box,
+      accepted_gpa_awa: accepted_gpa_awa, rejected_gpa_awa: rejected_gpa_awa,
+      rejected_gre: rejected_gre, rejected_gpa_awa_box: rejected_gpa_awa_box,
+      a_r_nation_visual: a_r_nation_visual, q_array: q_array, v_array: v_array,
+      gpa_array: gpa_array, awa_array: awa_array, time_period: timer,
+      search_term: params['search_term'], masters_phd: params['masters_phd'],
+      search_season: params['search_season']
     }
   end
 end
