@@ -1,6 +1,6 @@
 require 'nokogiri'
 
-TABLE_ROWS = 'table > tr'
+TABLE_ROWS = '//table/tbody/tr'
 TABLE_DATA = 'td'
 GEM_EXT_DATA = '.extinfo'
 REMOVE_GRE = 'GRE'
@@ -16,7 +16,7 @@ class FilterSearchResults
   def call(results = {})
     @search_results.each do |page|
       page = Nokogiri::HTML(page)
-      page.search(TABLE_ROWS).each do |row|
+      page.xpath(TABLE_ROWS).each do |row|
         row_info = row.search(TABLE_DATA)
         filter_info = row_info[1].text.split
         season = filter_info[-1]
