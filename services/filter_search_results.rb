@@ -1,6 +1,6 @@
 require 'nokogiri'
 
-TABLE_ROWS = '//table/tbody/tr'
+TABLE_ROWS = '//table/tr'
 TABLE_DATA = 'td'
 GEM_EXT_DATA = '.extinfo'
 REMOVE_GRE = 'GRE'
