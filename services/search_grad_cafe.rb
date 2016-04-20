@@ -13,7 +13,8 @@ class SearchGradCafe
   end
 
   def call
-    open("#{GRADCAFE}=#{@search_term}&#{TIME}=#{@time_period}&"\
+    text = open("#{GRADCAFE}=#{@search_term}&#{TIME}=#{@time_period}&"\
          "#{PAGES}=#{@page_number}").read
+    text.scan(/[[:print:]]/).join
   end
 end
