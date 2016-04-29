@@ -66,7 +66,7 @@ class GradCafeVisualizationApp < Sinatra::Base
       a_r_nation_visual: a_r_nation_visual, q_array: q_array, v_array: v_array,
       gpa_array: gpa_array, awa_array: awa_array, time_period: timer,
       search_term: params['search_term'], masters_phd: params['masters_phd'],
-      search_season: params['search_season']
+      search_season: params['search_season'], accept_reject: accept_reject
     }
   end
 end
