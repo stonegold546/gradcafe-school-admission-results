@@ -20,6 +20,26 @@ div class='row'
     div id='gpa-awa'
   div class='col-md-1'
 
+br
+- group = %w(Accepts Rejects)
+table
+  tr
+    th Size of Samples
+    th Undergraduate GPA
+    th GRE Quant
+    th GRE Verbal
+    th GRE AWA
+    th GRE Subject
+    - accept_reject.each_with_index do |a_r, idx|
+      tr align='center'
+        td #{group[idx]}
+        - a_r.each_value do |value|
+          td #{value.length}
+
+css:
+  th, td {
+    padding: 15px;
+  }
 
 javascript:
   var accept_values = JSON.parse("#{accepted_gre_box.values}");
