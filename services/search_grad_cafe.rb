@@ -7,7 +7,7 @@ PAGES = 'o=&pp=250&p'
 # Service object to visit grad cafe
 class SearchGradCafe
   def initialize(search_term, time_period, page_number)
-    @search_term = search_term
+    @search_term = URI.escape search_term
     @time_period = time_period
     @page_number = page_number
   end

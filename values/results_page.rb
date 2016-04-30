@@ -30,6 +30,7 @@ class ResultsPage
     result = [arr.descriptive_statistics[:min], arr.percentile(25), arr.median,
               arr.percentile(75), arr.descriptive_statistics[:max]]
     result = [0, 0, 0, 0, 0] if result.any? { |e| e.to_s == 'NaN' || e.nil? }
+    result = result.map { |e| e.to_f.round 2 }
     result
   end
 
@@ -48,7 +49,8 @@ class ResultsPage
     gre_gpa_awa.each do |item|
       item.each_key do |key|
         item[key] ||= 0
-        item[key] = 0 if item[key].to_s == 'NaN'
+        item[key] = 0 if ['', 'NaN'].include? item[key].to_s
+        item[key] = item[key].to_f.round 2
       end
     end
     gre_gpa_awa
