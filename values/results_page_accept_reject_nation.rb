@@ -31,8 +31,11 @@ class ResultsPageAcceptRejectNation
     @a_r_nation.each_key do |key|
       @a_r_nation[key].each_key do |stat|
         @a_r_nation_visual[key]["#{stat}_mean"] ||= 0
-        @a_r_nation_visual[key]["#{stat}_mean"] = 0 if
-          ['', 'NaN'].include? @a_r_nation_visual[key]["#{stat}_mean"].to_s
+        @a_r_nation_visual[key]["#{stat}_mean"] =
+        if ['', 'NaN'].include? @a_r_nation_visual[key]["#{stat}_mean"].to_s
+          0
+        else @a_r_nation_visual[key]["#{stat}_mean"].to_f.round 2
+        end
       end
     end
   end
@@ -41,6 +44,7 @@ class ResultsPageAcceptRejectNation
     result = [arr.descriptive_statistics[:min], arr.percentile(25), arr.median,
               arr.percentile(75), arr.descriptive_statistics[:max]]
     result = [0, 0, 0, 0, 0] if result.any? { |e| e.to_s == 'NaN' || e.nil? }
+    result = result.map { |e| e.to_f.round 2 }
     result
   end
 
