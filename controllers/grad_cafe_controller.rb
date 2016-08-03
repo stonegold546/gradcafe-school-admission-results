@@ -69,4 +69,8 @@ class GradCafeVisualizationApp < Sinatra::Base
       search_season: params['search_season'], accept_reject: accept_reject
     }
   end
+
+  get '/keybase.txt' do
+    File.read(File.join('public', 'keybase.txt'))
+  end
 end
