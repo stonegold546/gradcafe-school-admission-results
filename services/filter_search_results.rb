@@ -1,6 +1,6 @@
 require 'nokogiri'
 
-TABLE_ROWS = '//table/tr'.freeze
+TABLE_ROWS = '//table/tbody/tr'.freeze
 TABLE_DATA = 'td'.freeze
 GEM_EXT_DATA = '.extinfo'.freeze
 REMOVE_GRE = 'GRE'.freeze
