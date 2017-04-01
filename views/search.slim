@@ -18,7 +18,7 @@ select name='masters_phd' class='data'
 label Search Season: 
 select name='search_season' class='data'
   option selected='selected' value='' None
-  - 2016.downto(2013).to_a.each do |year|
+  - 2017.downto(2013).to_a.each do |year|
     - %w(Fall Spring).each do |season|
       option value="#{season[0]}#{year.to_s[-2..-1]}" #{season} #{year}
 input name='channel' class='data' hidden='true' value="#{SecureRandom.hex}"
