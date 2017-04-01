@@ -17,7 +17,7 @@ class SplitResultIntoAcceptRejectNation
   def initialize(result)
     @result = result
     # ap @result
-    @global_item = 6.times.collect { RequiredData.new.required_data }
+    @global_item = Array.new(6, RequiredData.new.required_data)
   end
 
   def call

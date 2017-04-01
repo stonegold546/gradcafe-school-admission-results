@@ -22,7 +22,7 @@ class ResultsPageAcceptRejectNation
       @a_r_nation[key].each_key do |stat|
         @a_r_nation_visual[key]["#{stat}_mean"] = @a_r_nation[key][stat].mean
         @a_r_nation_visual[key]["#{stat}_box"] =
-        generate_boxplot_array(@a_r_nation[key][stat])
+          generate_boxplot_array(@a_r_nation[key][stat])
       end
     end
   end
@@ -32,10 +32,10 @@ class ResultsPageAcceptRejectNation
       @a_r_nation[key].each_key do |stat|
         @a_r_nation_visual[key]["#{stat}_mean"] ||= 0
         @a_r_nation_visual[key]["#{stat}_mean"] =
-        if ['', 'NaN'].include? @a_r_nation_visual[key]["#{stat}_mean"].to_s
-          0
-        else @a_r_nation_visual[key]["#{stat}_mean"].to_f.round 2
-        end
+          if ['', 'NaN'].include? @a_r_nation_visual[key]["#{stat}_mean"].to_s
+            0
+          else @a_r_nation_visual[key]["#{stat}_mean"].to_f.round 2
+          end
       end
     end
   end

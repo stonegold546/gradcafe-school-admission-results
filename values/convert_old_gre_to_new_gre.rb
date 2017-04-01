@@ -23,17 +23,17 @@ class ConvertOldGreToNewGre
 
   def undergraduate_gpa_work(key, idx)
     @accept_reject[idx][key] =
-    @accept_reject[idx][key].map(&:to_f).select do |value|
-      value if value >= 0 && value <= 4
-    end
+      @accept_reject[idx][key].map(&:to_f).select do |value|
+        value if value >= 0 && value <= 4
+      end
   end
 
   def gre_quant_verbal_work(key, idx, global_item)
     @accept_reject[idx][key] =
-    @accept_reject[idx][key].map(&:to_i).map do |value|
-      value = global_item[value.to_s].to_i if value > 170
-      value
-    end
+      @accept_reject[idx][key].map(&:to_i).map do |value|
+        value = global_item[value.to_s].to_i if value > 170
+        value
+      end
     @accept_reject[idx][key] = @accept_reject[idx][key].select do |value|
       value if value >= 130
     end
@@ -41,9 +41,9 @@ class ConvertOldGreToNewGre
 
   def gre_awa_work(key, idx)
     @accept_reject[idx][key] =
-    @accept_reject[idx][key].map(&:to_f).select do |value|
-      value if value > 0 && value <= 6
-    end
+      @accept_reject[idx][key].map(&:to_f).select do |value|
+        value if value > 0 && value <= 6
+      end
   end
 
   def gre_subject_work(key, idx)

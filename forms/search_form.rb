@@ -1,8 +1,8 @@
 require 'virtus'
 require 'active_model'
 
-TIME_PERIOD = %w(n t w m a)
-DEGREE = ['', 'PhD', 'Masters', 'MFA', 'MBA', 'JD', 'EdD', 'Other']
+TIME_PERIOD = %w(n t w m a).freeze
+DEGREE = ['', 'PhD', 'Masters', 'MFA', 'MBA', 'JD', 'EdD', 'Other'].freeze
 SEASON = 16.downto(13).to_a.map do |year|
   %w(F S).map { |season| "#{season}#{year}" }
 end + ['']

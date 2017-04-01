@@ -1,8 +1,8 @@
 require 'open-uri'
 
-GRADCAFE = 'http://thegradcafe.com/survey/index.php?q'
-TIME = 't'
-PAGES = 'o=&pp=250&p'
+GRADCAFE = 'http://thegradcafe.com/survey/index.php?q'.freeze
+TIME = 't'.freeze
+PAGES = 'o=&pp=250&p'.freeze
 
 # Service object to visit grad cafe
 class SearchGradCafe

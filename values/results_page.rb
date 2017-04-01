@@ -3,7 +3,7 @@ require 'descriptive_statistics'
 TIMER = {
   'n' => 'today only', 't' => 'past two days', 'w' => 'past week',
   'm' => 'past month', 'a' => 'all time'
-}
+}.freeze
 
 # Object to create all the necessary results for the results page
 class ResultsPage

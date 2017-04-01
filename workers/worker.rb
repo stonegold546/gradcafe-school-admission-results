@@ -3,7 +3,7 @@ require 'nokogiri'
 require 'zlib'
 require 'base64'
 
-PAGE_INFO_CLASS = '.pagination'
+PAGE_INFO_CLASS = '.pagination'.freeze
 PAGE_NUMBER_POSITION = 4
 
 # Worker to trouble gradcafe
@@ -19,7 +19,7 @@ class GradCafeWorker
     # TODO: This is too long and complicated. BAD!
     page_one = first_page
     number_of_pages = calculate_number_of_pages(page_one)
-    if number_of_pages == 0
+    if number_of_pages.zero?
       publish([0, 0, ''].to_json)
       return 'No results for your query'
     elsif number_of_pages > 1
@@ -55,7 +55,7 @@ class GradCafeWorker
 
   def go_through_other_pages(number_of_pages)
     (2..number_of_pages).to_a.map do |page_number|
-      sleep 02
+      sleep 2
       result = SearchGradCafe.new(@search_term, @time_period, page_number).call
       unless page_number == number_of_pages
         publish([page_number, number_of_pages, ''].to_json)

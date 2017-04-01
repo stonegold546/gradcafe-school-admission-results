@@ -1,9 +1,9 @@
 require 'nokogiri'
 
-TABLE_ROWS = '//table/tr'
-TABLE_DATA = 'td'
-GEM_EXT_DATA = '.extinfo'
-REMOVE_GRE = 'GRE'
+TABLE_ROWS = '//table/tr'.freeze
+TABLE_DATA = 'td'.freeze
+GEM_EXT_DATA = '.extinfo'.freeze
+REMOVE_GRE = 'GRE'.freeze
 
 # Service object to filter grad cafe search results
 class FilterSearchResults
