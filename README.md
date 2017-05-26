@@ -2,7 +2,7 @@
 
 I'm not affiliated with GradCafe.
 
-All this does is, it takes your search results and returns a few visualizations of GRE scores & uGPA scores.
+All this does is, it takes your search results and returns a few visualizations of GRE scores and uGPA scores.
 
 For large searches, I placed a 2-second delay between page queries.
 
